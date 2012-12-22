@@ -9,6 +9,7 @@ Add columns to the Users list indicating number of times logged in and when the 
 == Description ==
 
 Add columns to the Users list indicating number of times logged in and when the last login occurred.
+This plugin does not track the time of each individual login for the given user.
 
 == Installation ==
 
