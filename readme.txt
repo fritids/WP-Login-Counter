@@ -1,0 +1,18 @@
+=== Wordpress Login Counter ===
+Contributors: Derek Hall
+Tags: login, user, counter
+Tested up to: 3.5
+Stable tag: trunk
+
+Add columns to the Users list indicating number of times logged in and when the last login occurred.
+
+== Description ==
+
+Add columns to the Users list indicating number of times logged in and when the last login occurred.
+
+== Installation ==
+
+1. Upload the 'login-counter' directory to the /wp-content/plugins/ directory
+2. Activate the plugin through the 'Plugins' menu in WordPress
+
+== Frequently Asked Questions ==
