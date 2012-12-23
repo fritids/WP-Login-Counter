@@ -35,6 +35,7 @@ const SINGLE = true;
 
 /**
  * Return an integer representing how many times the user with the given ID has logged in
+ *
  * @param int $userID: The ID of a WP_User
  * @return int: How many times the WP_User has logged in
  */
@@ -45,6 +46,7 @@ function getLoginCount($userID) {
 
 /**
  * Return a timestamp representing when the user with the given ID last logged in
+ *
  * @param int $userID: The ID of a WP_User
  * @return int: The server-relative timestamp of when the WP_User last logged in
  */
@@ -53,8 +55,13 @@ function getLoginTime($userID) {
 	return strtotime(get_user_meta($userID, LOGIN_COUNT, SINGLE));
 }
 
-
-// On each User login, record the current time and increment their login count
+/**
+ * On each User login, record the current time and increment their login count
+ *
+ * @param string $username: The user_login value for a WP_User
+ * @param object $userObject: The WP_User who just logged in
+ * @return void
+ */
 function recordLogin($username, $userObject) {
 
 	$userID = $userObject->ID;
