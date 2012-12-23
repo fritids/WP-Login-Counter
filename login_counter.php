@@ -43,6 +43,17 @@ function getLoginCount($userID) {
 	return intval(get_user_meta($userID, LOGIN_COUNT, SINGLE));
 }
 
+/**
+ * Return a timestamp representing when the user with the given ID last logged in
+ * @param int $userID: The ID of a WP_User
+ * @return int: The server-relative timestamp of when the WP_User last logged in
+ */
+function getLoginTime($userID) {
+	// A blank string is returned if the key does not exist, which will eval to zero anyway
+	return strtotime(get_user_meta($userID, LOGIN_COUNT, SINGLE));
+}
+
+
 // On each User login, record the current time and increment their login count
 function recordLogin($username, $userObject) {
 
