@@ -48,11 +48,17 @@ function getLoginCount($userID) {
  * Return a timestamp representing when the user with the given ID last logged in
  *
  * @param int $userID: The ID of a WP_User
- * @return int: The server-relative timestamp of when the WP_User last logged in
+ * @return int || null: The server-relative timestamp of when the WP_User last logged in, or null if they never have
  */
 function getLoginTime($userID) {
-	// A blank string is returned if the key does not exist, which will eval to zero anyway
-	return strtotime(get_user_meta($userID, LOGIN_COUNT, SINGLE));
+	$loginTime = get_user_meta($userID, LOGIN_TIME, SINGLE);
+
+	// A blank string is returned if the key does not exist
+	if (empty($loginTime)) {
+		return null;
+	}
+
+	return strtotime($loginTime);
 }
 
 /**
@@ -100,7 +106,12 @@ function updateUserTableValues($value, $columnName, $userID) {
 
 	switch ($columnName) {
 		case LOGIN_TIME: 
-			$value = date('Y-m-d H:i:s', getLoginTime($userID));
+			$loginTime = getLoginTime($userID);
+			if (empty($loginTime)) {
+				$value = __('Never', 'never_logged_in');
+			} else {
+				$value = date('Y-m-d H:i:s', $loginTime);
+			}
 			break;
 
 		case LOGIN_COUNT:
