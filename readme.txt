@@ -1,8 +1,8 @@
 === Wordpress Login Counter ===
 Contributors: Derek Hall
 Tags: login, user, counter
+Requires: PHP 5.3
 Tested up to: 3.5
-Stable tag: trunk
 
 Add columns to the Users list indicating number of times logged in and when the last login occurred.
 
