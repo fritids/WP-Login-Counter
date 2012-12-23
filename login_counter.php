@@ -33,6 +33,16 @@ const LOGIN_TIME = 'last_login';
 const LOGIN_COUNT = 'login_count';
 const SINGLE = true;
 
+/**
+ * Return an integer representing how many times the user with the given ID has logged in
+ * @param int $userID: The ID of a WP_User
+ * @return int: How many times the WP_User has logged in
+ */
+function getLoginCount($userID) {
+	// A blank string is returned if the key does not exist, which will eval to zero anyway
+	return intval(get_user_meta($userID, LOGIN_COUNT, SINGLE));
+}
+
 // On each User login, record the current time and increment their login count
 function recordLogin($username, $userObject) {
 
@@ -42,8 +52,7 @@ function recordLogin($username, $userObject) {
 	update_user_meta($userID, LOGIN_TIME, current_time('mysql'));
 
 	// Update the login count. Requires knowing what it was before
-	// A blank string is returned if the key does not exist, which will eval to zero anyway
-	$loginCount = intval(get_user_meta($userID, LOGIN_COUNT, SINGLE));
+	$loginCount = getLoginCount($userID);
 	update_user_meta($userID, LOGIN_COUNT, ++$loginCount);
 }
 add_action('wp_login', 'WPLoginCounter\\recordLogin', 10, 2);
