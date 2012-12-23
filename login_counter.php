@@ -117,10 +117,6 @@ function updateUserTableValues($value, $columnName, $userID) {
 		case LOGIN_COUNT:
 			$value = getLoginCount($userID);
 			break;
-
-		default:
-			$value = $columnName;
-			break;
 	}
 
 	return $value;
