@@ -74,3 +74,44 @@ function recordLogin($username, $userObject) {
 	update_user_meta($userID, LOGIN_COUNT, ++$loginCount);
 }
 add_action('wp_login', 'WPLoginCounter\\recordLogin', 10, 2);
+
+/**
+ * Add two new columns to the user management table: last login time and login count
+ *
+ * @param array $columns: The existing array of user columns
+ * @return array: The updated array of user columns
+ */
+function addLoginCountColumnsToUserTable($columns) {
+	$columns[LOGIN_COUNT] = __('Login count', LOGIN_COUNT);
+	$columns[LOGIN_TIME] = __('Last login', LOGIN_TIME);
+	return $columns;
+}
+add_filter('manage_users_columns', 'WPLoginCounter\\addLoginCountColumnsToUserTable');
+
+/**
+ * Fill out the custom columns that we've defined for the user management table
+ * 
+ * @param mixed $value: Current column value.
+ * @param string $columnName: The name of the column being called back against.
+ * @param int $userID: The ID of the WP_User being displayed
+ * @return mixed: Return the value to be put into the given column.
+ */
+function updateUserTableValues($value, $columnName, $userID) {
+
+	switch ($columnName) {
+		case LOGIN_TIME: 
+			$value = date('Y-m-d H:i:s', getLoginTime($userID));
+			break;
+
+		case LOGIN_COUNT:
+			$value = getLoginCount($userID);
+			break;
+
+		default:
+			$value = $columnName;
+			break;
+	}
+
+	return $value;
+}
+add_filter('manage_users_custom_column', 'WPLoginCounter\\updateUserTableValues', 10, 3);
