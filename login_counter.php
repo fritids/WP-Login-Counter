@@ -28,16 +28,15 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
     
 */
 
+// Define constants to be used within this namespace
 const LOGIN_TIME = 'last_login';
 const LOGIN_COUNT = 'login_count';
 const SINGLE = true;
 
 // On each User login, record the current time and increment their login count
-add_action('wp_login', 'recordLogin');
-function recordLogin() {
-	global $wpdb;
+function recordLogin($username, $userObject) {
 
-	$userID = $wpdb->get_var($wpdb->prepare('SELECT ID FROM '. $wpdb->users .' WHERE user_login = %s', $user_login));
+	$userID = $userObject->ID;
 
 	// Update the last login time
 	update_user_meta($userID, LOGIN_TIME, current_time('mysql'));
@@ -47,3 +46,4 @@ function recordLogin() {
 	$loginCount = intval(get_user_meta($userID, LOGIN_COUNT, SINGLE));
 	update_user_meta($userID, LOGIN_COUNT, ++$loginCount);
 }
+add_action('wp_login', 'WPLoginCounter\\recordLogin', 10, 2);
